@@ -1,6 +1,7 @@
 const { OpenAIService } = require("../services/openai");
 const index = require("../singletons/db");
 const { v4: uuidv4 } = require("uuid");
+const { getCompatibleSigns } = require("../utils/zodiac");
 
 /**
  * Get projects. If no search query is provided, recommendations are given based on
@@ -17,13 +18,13 @@ const queryProjects = async (req, res) => {
 
   const filters = domains
     ? {
-        filter: { domains: { $in: domains } },
+        filter: { domains: { $in: domains }, type: "project" },
       }
-    : {};
+    : { filter: { type: "project" } };
 
   // get projects by query
   if (search) {
-    await index.query({
+    const query = await index.query({
       query: {
         vector: embedding,
         topK: 10,
@@ -32,6 +33,7 @@ const queryProjects = async (req, res) => {
         ...filters,
       },
     });
+    console.log(query);
   }
   // TODO: else get recommendations based on skills and interests
 };
@@ -60,6 +62,7 @@ const createProject = async (req, res) => {
       {
         id: uuidv4(),
         metadata: {
+          type: "project",
           name,
           description,
           domains,

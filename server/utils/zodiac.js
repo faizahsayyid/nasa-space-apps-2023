@@ -1,4 +1,4 @@
-const { WORK_COMPATIBILITY } = require("../data/work-compatibility");
+const { WORK_COMPATIBILITY } = require("../data/zodiac");
 
 const getCompatibleSigns = (sign) => {
   const compatibleSigns = WORK_COMPATIBILITY.filter(
