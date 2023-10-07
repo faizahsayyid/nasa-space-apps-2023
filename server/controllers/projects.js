@@ -1,3 +1,7 @@
+const { OpenAIService } = require("../services/openai");
+const index = require("../singletons/db");
+const { v4: uuidv4 } = require("uuid");
+
 /**
  * Get projects. If no search query is provided, recommendations are given based on
  * users interests and skills.
@@ -6,10 +10,30 @@
  * @returns - a list of projects
  */
 const queryProjects = async (req, res) => {
-  const userId = req.user.id;
-  const { search, domain } = req.query;
-  // get recommendations based on skills and interests
+  // TODO: const userId = "???";
+  const { search, domains } = req.query;
+  // TODO: include star sign in search query
+  const embedding = await OpenAIService.createEmbedding(search);
+
+  const filters = domains
+    ? {
+        filter: { domains: { $in: domains } },
+      }
+    : {};
+
   // get projects by query
+  if (search) {
+    await index.query({
+      query: {
+        vector: embedding,
+        topK: 10,
+        includeMetadata: true,
+        includeValues: false,
+        ...filters,
+      },
+    });
+  }
+  // TODO: else get recommendations based on skills and interests
 };
 
 /**
@@ -19,8 +43,38 @@ const queryProjects = async (req, res) => {
  * @returns the created project
  */
 const createProject = async (req, res) => {
-  const userId = req.user.id;
-  const { description, domains } = req.body;
+  const { name, description, domains, user_id, external_url, star_sign } =
+    req.body;
+
+  const compatible_signs = getCompatibleSigns(star_sign);
+
+  try {
+    const embedding = await OpenAIService.createEmbedding(`
+    Name: ${name}
+    Description: ${description}
+    Domains: ${domains.join(", ")}
+    Compatible Star Signs: ${compatible_signs.join(", ")}
+    `);
+
+    await index.upsert([
+      {
+        id: uuidv4(),
+        metadata: {
+          name,
+          description,
+          domains,
+          user_id,
+          external_url,
+          compatible_signs,
+        },
+        values: embedding,
+      },
+    ]);
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
 };
 
 module.exports = {
