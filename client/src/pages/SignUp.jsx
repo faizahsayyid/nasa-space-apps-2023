@@ -126,7 +126,7 @@ export const SignUp = () => {
             <Stack pt={0}>
               <Text align={'center'}>
                 <Text color={'blue.400'} textDecoration='underline'>
-                  <Link to='/login'>Proceed without an account</Link>
+                  <Link to='/search'>Proceed without an account</Link>
                 </Text>
               </Text>
             </Stack>
