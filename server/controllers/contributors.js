@@ -18,7 +18,7 @@ const recommendContributors = async (req, res) => {
     // get projects by query
     const contributorData = await index.query({
       vector: embedding,
-      topK: parseInt(limit) ?? 10,
+      topK: limit ? parseInt(limit) : 10,
       includeMetadata: true,
       includeValues: false,
       filter: { type: "contributor" },
