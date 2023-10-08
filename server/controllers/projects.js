@@ -37,13 +37,15 @@ const queryProjects = async (req, res) => {
 
     const query = await index.query({
       vector: embedding,
-      topK: parseInt(limit) ?? 10,
+      topK: limit ? parseInt(limit) : 10,
       includeMetadata: true,
       includeValues: false,
       ...filters,
     });
 
-    const projects = query.matches.map(({ metadata }) => metadata);
+    const projects = query.matches.map(({ id, metadata }) => {
+      return { project_id: id, ...metadata };
+    });
 
     res.status(200).send(projects);
   } catch (e) {

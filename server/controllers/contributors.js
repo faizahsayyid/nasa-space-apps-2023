@@ -18,15 +18,15 @@ const recommendContributors = async (req, res) => {
     // get projects by query
     const contributorData = await index.query({
       vector: embedding,
-      topK: parseInt(limit) ?? 10,
+      topK: limit ? parseInt(limit) : 10,
       includeMetadata: true,
       includeValues: false,
       filter: { type: "contributor" },
     });
 
-    const contributors = contributorData.matches.map(
-      ({ metadata }) => metadata
-    );
+    const contributors = contributorData.matches.map(({ id, metadata }) => {
+      return { user_id: id, ...metadata };
+    });
 
     res.status(200).send(contributors);
   } catch (e) {
