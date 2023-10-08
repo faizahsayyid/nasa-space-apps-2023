@@ -23,7 +23,7 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        margin: '2rem',
+        margin: '1rem',
       },
     },
   },
@@ -50,7 +50,7 @@ export const CreateProject = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Container maxW="sm">
+      <Container maxW="80%">
         <Center>
           <Box>
             <form>
@@ -60,77 +60,69 @@ export const CreateProject = () => {
                 </Heading>
 
                 {/* Upload an Image */}
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel>Upload an Image</FormLabel>
                   <InputGroup>
-                    <InputLeftElement pointerEvents="none">
-                      <Button colorScheme="blue" variant="outline">
-                        Upload
-                      </Button>
-                    </InputLeftElement>
                     <Input
                       type="file"
                       name="image"
                       onChange={handleChange}
                       accept="image/*"
+                      required // Add the required attribute here
                     />
                   </InputGroup>
                 </FormControl>
 
                 {/* Enter a Text Title */}
-                <FormControl>
-                  <FormLabel>Enter a Text Title</FormLabel>
+                <FormControl isRequired>
+                  <FormLabel>Enter a Project Title</FormLabel>
                   <Input
                     type="text"
                     name="title"
                     onChange={handleChange}
                     value={newProject.title}
                     placeholder="Title"
+                    required // Add the required attribute here
                   />
                 </FormControl>
 
                 {/* Enter a Text Description */}
-                <FormControl>
-                  <FormLabel>Enter a Text Description</FormLabel>
+                <FormControl isRequired>
+                  <FormLabel>Enter a Description</FormLabel>
                   <Textarea
                     name="description"
                     onChange={handleChange}
                     value={newProject.description}
                     placeholder="Description"
+                    required // Add the required attribute here
                   />
                 </FormControl>
 
                 {/* Enter a Text Domain */}
-                <FormControl>
-                  <FormLabel>Enter a Text Domain</FormLabel>
+                <FormControl isRequired>
+                  <FormLabel>Enter Domains (e.g., domain 1, domain 2)</FormLabel>
                   <Input
                     type="text"
                     name="domain"
                     onChange={handleChange}
                     value={newProject.domain}
                     placeholder="Domain"
+                    required // Add the required attribute here
                   />
                 </FormControl>
 
                 {/* Enter an Email Address to Contact */}
-                <FormControl>
-                  <FormLabel>Enter an Email Address to Contact</FormLabel>
+                <FormControl isRequired>
+                  <FormLabel>Contact Email</FormLabel>
                   <Input
                     type="email"
                     name="contactEmail"
                     onChange={handleChange}
                     value={newProject.contactEmail}
                     placeholder="Email Address"
+                    required // Add the required attribute here
                   />
                 </FormControl>
-
-                <Button
-                  onClick={handleCreateProject}
-                  colorScheme="teal"
-                  size="lg"
-                >
-                  Create Project
-                </Button>
               </Stack>
             </form>
           </Box>
