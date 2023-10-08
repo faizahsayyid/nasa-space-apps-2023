@@ -18,7 +18,7 @@ import {
 import { SearchIcon } from '@chakra-ui/icons';
 import data from './projects.json';
 
-export const Search = () => {
+export const CreateProject = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [projects, setProjects] = useState(data); // Initialize projects with data from projects.json
 
