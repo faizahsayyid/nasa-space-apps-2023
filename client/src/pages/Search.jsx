@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+
 import {
   Input,
   Stack,
@@ -14,29 +16,45 @@ import {
   Button,
   ButtonGroup,
   Grid,
+  Center,
+  Box,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import data from './projects.json';
+// import data from './projects.json';
+import Navbar from '../components/Navbar';
+import { get_projects } from '../api';
 
 export const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  const { isLoading, error, data } = useQuery(
+    ['get_projects', searchTerm],
+    () => get_projects(searchTerm, '6e1d4748-b8ad-4ac3-8360-079245890f59')
+  );
+
+  if (isLoading) return 'Loading...';
+
   return (
-    <div style={{ backgroundColor: '#E9D8FD', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: '#000657', minHeight: '100vh' }}>
       <div>
         {/* Header */}
-
+        <Navbar />
         {/* //Header */}
-        <Stack spacing={4} mx='25%'>
-          <InputGroup my='100px' bg='white' borderRadius='full'>
+        <Stack spacing={4} mx='20%' margin-left='%'>
+          <InputGroup my='50px' bg='white' borderRadius='full'>
             <InputLeftElement pointerEvents='none'>
               <SearchIcon color='purple.500' />
             </InputLeftElement>
             <Input
               type='search'
-              onChange={(event) => {
-                setSearchTerm(event.target.value);
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  setSearchTerm(event.target.value);
+                }
               }}
+              // onChange={(event) => {
+              //   setSearchTerm(event.target.value);
+              // }}
               placeholder='Search for projects...'
               _focus={{ borderColor: 'purple.500', boxShadow: 'none' }}
               id='search'
@@ -44,64 +62,79 @@ export const Search = () => {
           </InputGroup>
         </Stack>
       </div>
+      <Center>
+        <Grid
+          templateColumns={{
+            base: '1fr',
+            sm: 'repeat(2, 1fr)', // On small screens (sm), display 2 columns
+            md: 'repeat(3, 1fr)', // On medium screens (md), display 3 columns
+          }}
+          gap={4}
+          mx='25%'
+          height='100%'
+        >
+          {data
+            // .filter((val) => {
+            //   if (searchTerm == '') {
+            //     return val;
+            //   } else if (
+            //     val.title.toLowerCase().includes(searchTerm.toLowerCase())
+            //   ) {
+            //     return val;
+            //   }
+            // })
 
-      <Grid
-        templateColumns={{
-          base: '1fr',
-          sm: 'repeat(2, 1fr)', // On small screens (sm), display 2 columns
-          md: 'repeat(3, 1fr)', // On medium screens (md), display 3 columns
-        }}
-        gap={4}
-        mx='25%'
-      >
-        {data
-          .filter((val) => {
-            if (searchTerm == '') {
-              return val;
-            } else if (
-              val.title.toLowerCase().includes(searchTerm.toLowerCase())
-            ) {
-              return val;
-            }
-          })
-          .map((val) => {
-            return (
-              <div className='template' key={val.id}>
-                <Card maxW='sm'>
-                  <CardBody>
-                    <Image
-                      src={val.image}
-                      alt='Green double couch with wooden legs'
-                      borderRadius='lg'
-                    />
-                    <Stack mt='6' spacing='3'>
-                      <Heading size='md'>{val.title}</Heading>
-                      <Text>{val.description}</Text>
-                      <Text color='blue.600' fontSize='2xl'>
-                        ${val.price}/hr
-                      </Text>
-                    </Stack>
-                  </CardBody>
-                  <Divider />
-                  <CardFooter>
-                    <ButtonGroup spacing='2'>
-                      <Button variant='solid' colorScheme='blue'>
-                        Apply now
-                      </Button>
-                      <Button variant='ghost' colorScheme='blue'>
-                        Save for later
-                      </Button>
-                    </ButtonGroup>
-                  </CardFooter>
-                </Card>
-
-                {/* <img src={val.image} alt='' />
-                <h3>{val.title}</h3>
-                <p className='price'>${val.price}</p> */}
-              </div>
-            );
-          })}
-      </Grid>
+            .map((val) => {
+              return (
+                <div className='template' key={val.id}>
+                  <Box maxW='sm' height='100%' overflow='hidden'>
+                    <Card maxW='sm' height='100%'>
+                      <CardBody>
+                        {val.image_url ? (
+                          <Image
+                            src={val.image_url}
+                            alt='Project Picture'
+                            borderRadius='lg'
+                          />
+                        ) : (
+                          <Image
+                            src=' https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png' // Replace with your default image source
+                            alt='Default Image'
+                            borderRadius='lg'
+                          />
+                        )}
+                        <Stack mt='6' spacing='3'>
+                          <Heading size='md'>{val.name}</Heading>
+                          <Text>{val.description}</Text>
+                          <Text fontWeight='bold' fontSize='sm'>
+                            Open Roles Available:{' '}
+                            {val.roles.map((role, index) => (
+                              <span key={index}>
+                                {role.toLowerCase()}
+                                {index < val.roles.length - 1 ? ', ' : ''}
+                              </span>
+                            ))}
+                          </Text>
+                        </Stack>
+                      </CardBody>
+                      <Divider />
+                      <CardFooter>
+                        <ButtonGroup spacing='2'>
+                          <Button variant='solid' colorScheme='blue'>
+                            Apply now
+                          </Button>
+                          <Button variant='ghost' colorScheme='blue'>
+                            Save for later
+                          </Button>
+                        </ButtonGroup>
+                      </CardFooter>
+                    </Card>
+                  </Box>
+                </div>
+              );
+            })}
+        </Grid>
+      </Center>
     </div>
   );
 };
