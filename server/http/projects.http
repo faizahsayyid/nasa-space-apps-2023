@@ -12,4 +12,4 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/project?search=NOAA HTTP/1.1
+GET http://localhost:3000/project?search=NOAA&user_id=5dae3e7f-82b3-49d9-9a95-35642ee7d95f HTTP/1.1

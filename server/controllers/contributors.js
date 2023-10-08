@@ -8,40 +8,40 @@ const { v4: uuidv4 } = require("uuid");
  * @returns - a list of contributors
  */
 const recommendContributors = async (req, res) => {
-  const { project_id } = req.query;
+  const { project_id } = req.params;
+  const { limit } = req.query;
 
-  const result = await index.fetch([project_id]);
-  const embedding = result.records[project_id].values;
+  try {
+    const result = await index.fetch([project_id]);
+    const embedding = result.records[project_id].values;
 
-  // get projects by query
-  const contributorData = await index.query({
-    query: {
+    // get projects by query
+    const contributorData = await index.query({
       vector: embedding,
-      topK: 10,
+      topK: limit ?? 10,
       includeMetadata: true,
       includeValues: false,
       filter: { type: "contributor" },
-    },
-  });
+    });
 
-  //   const contributors = contributorData.results.map((contributor) => {
-  //     return {
-  //       user_id: contributor.id,
-  //       skills: contributor.metadata.skills,
-  //       interests: contributor.metadata.interests,
-  //       email: contributor.metadata.email,
-  //       star_sign: contributor.metadata.star_sign,
-  //     };
-  //   });
+    const contributors = contributorData.matches.map(
+      ({ metadata }) => metadata
+    );
 
-  res.status(200).send([]);
+    res.status(200).send(contributors);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to fetch contributors" });
+  }
 };
 
 /**
- * Create a project
- * @param description - description of the project
- * @param domains - a string list of domains the project belongs to
- * @returns the created project
+ * Create a contributor
+ * @param skills - skills of the contributor
+ * @param interests - interests of the contributor
+ * @param email - email of the contributor
+ * @param star_sign - star sign of the contributor
+ * @returns the created contributor
  */
 const createContributor = async (req, res) => {
   const { skills, interests, email, star_sign } = req.body;
@@ -63,7 +63,8 @@ const createContributor = async (req, res) => {
           skills,
           interests,
           email,
-          star_sig,
+          star_sign,
+          favorite_projects: [],
         },
         values: embedding,
       },
@@ -71,7 +72,7 @@ const createContributor = async (req, res) => {
     res.status(200).send({ user_id: userId });
   } catch (e) {
     console.log(e);
-    res.sendStatus(500);
+    res.status(500).send({ message: "Unable to create contributor" });
   }
 };
 
