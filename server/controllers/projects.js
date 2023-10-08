@@ -201,10 +201,32 @@ const applyToProject = async (req, res) => {
   }
 };
 
+/**
+ * Get project by manager id
+ * @param user_id - the id of the user to get projects for
+ */
+const getProjectsByManager = async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    const projectResult = await index.query({
+      filter: { project_manager_id: user_id },
+    });
+
+    const projects = projectResult.matches.map(({ metadata }) => metadata);
+
+    res.status(200).send([projects]);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to get project" });
+  }
+};
+
 module.exports = {
   queryProjects,
   createProject,
   updateProject,
   getProject,
   applyToProject,
+  getProjectsByManager,
 };
