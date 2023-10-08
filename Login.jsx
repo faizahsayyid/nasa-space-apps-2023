@@ -32,6 +32,7 @@ export const Login = () => {
                         <option value='Leo'>Leo: July 24 – August 23</option>
                     </Select>
                     <Button type="submit">Sign up!</Button>
+                    
                 </Stack>
             </form>
           </Box>

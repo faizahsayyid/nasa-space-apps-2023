@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 
 
 
-const theme = extendTheme({
+const theme = extendTheme({ 
   fonts: {
     heading: `monospace, sans-serif`,
-    // body: `'Raleway', sans-serif`,
   },
 });
 
