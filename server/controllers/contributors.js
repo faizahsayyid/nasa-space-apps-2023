@@ -24,9 +24,9 @@ const recommendContributors = async (req, res) => {
       filter: { type: "contributor" },
     });
 
-    const contributors = contributorData.matches.map(
-      ({ metadata }) => metadata
-    );
+    const contributors = contributorData.matches.map(({ id, metadata }) => {
+      return { user_id: id, ...metadata };
+    });
 
     res.status(200).send(contributors);
   } catch (e) {

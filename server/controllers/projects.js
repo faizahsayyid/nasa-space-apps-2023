@@ -43,7 +43,9 @@ const queryProjects = async (req, res) => {
       ...filters,
     });
 
-    const projects = query.matches.map(({ metadata }) => metadata);
+    const projects = query.matches.map(({ id, metadata }) => {
+      return { project_id: id, ...metadata };
+    });
 
     res.status(200).send(projects);
   } catch (e) {
