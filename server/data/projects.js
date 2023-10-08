@@ -7,6 +7,8 @@ const SAMPLE_PROJECTS = [
     user_id: "Ames Research Center",
     external_url: "https://science.nasa.gov/mission/viper/",
     star_sign: null,
+    image_url:
+      "https://smd-cms.nasa.gov/wp-content/uploads/2023/05/viper-cdr-hero-08-lrg-jpeg.webp?w=1536",
   },
   {
     name: "HelioSwarm",
@@ -16,6 +18,8 @@ const SAMPLE_PROJECTS = [
     user_id: "Ames Research Center",
     external_url: "https://eos.unh.edu/helioswarm",
     star_sign: null,
+    image_url:
+      "https://eos.unh.edu/sites/default/files/styles/landscape_1920x1275/public/media/slides/2022/10/screen-shot-2022-02-27-at-11.58.45-am.png?itok=jBC8jaO_&timestamp=1679966294",
   },
   {
     name: "Stratospheric Observatory for Infrared Astronomy",
@@ -25,6 +29,8 @@ const SAMPLE_PROJECTS = [
     user_id: "Ames Research Center",
     external_url: "https://science.nasa.gov/mission/sofia/",
     star_sign: null,
+    image_url:
+      "https://smd-cms.nasa.gov/wp-content/uploads/2023/06/sofiaoversierra-jpg.webp?w=2000",
   },
   {
     name: "Small Spacecraft Systems Virtual Institute",
@@ -33,6 +39,8 @@ const SAMPLE_PROJECTS = [
     domains: "web technologies,databases,spacecraft",
     user_id: "Ames Research Center",
     external_url: "https://www.nasa.gov/smallsat-institute/",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2022/06/capstone_spacecraft_0.jpg?w=640",
     star_sign: null,
   },
   {
@@ -42,6 +50,8 @@ const SAMPLE_PROJECTS = [
     domains: "development,commercial,exploration",
     user_id: "Ames Research Center",
     external_url: "https://www.nasa.gov/smallspacecraft/",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2023/02/acd23-0077-001orig.jpg?resize=1200,675",
     star_sign: null,
   },
   {
@@ -51,6 +61,7 @@ const SAMPLE_PROJECTS = [
     domains: "imaging,spectrograph,sun",
     user_id: "Ames Research Center",
     external_url: "https://iris.gsfc.nasa.gov/",
+    image_url: "https://iris.gsfc.nasa.gov/images/suntrace.png",
     star_sign: null,
   },
   {
@@ -61,6 +72,8 @@ const SAMPLE_PROJECTS = [
     user_id: "Ames Research Center",
     external_url:
       "https://www.nasa.gov/stmd-flight-opportunities/about-flight-opportunities/#:~:text=Flight%20Opportunities%20rapidly%20demostrates%20promising,testing%20with%20industry%20flight%20providers.",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2023/03/afrc2020-0100-30_0.jpg?w=640",
     star_sign: null,
   },
   {
@@ -79,6 +92,8 @@ const SAMPLE_PROJECTS = [
     domains: "thermal,development,reentry",
     user_id: "Ames Research Center",
     external_url: "https://www.nasa.gov/ames/arcjet-complex/",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2023/06/ajd12-a999i-003-011.jpg?resize=300,200",
     star_sign: null,
   },
   {
@@ -88,6 +103,8 @@ const SAMPLE_PROJECTS = [
     domains: "simulation,interoperability,implementation",
     user_id: "dandexter",
     external_url: "https://github.com/nasa/TrickHLA",
+    image_url:
+      "https://software.nasa.gov/themes/t2portal/images/t2.logo.horiz.rev.svg",
     star_sign: null,
   },
   {
@@ -97,6 +114,8 @@ const SAMPLE_PROJECTS = [
     domains: "mission control,visualization,framework",
     user_id: "VWoeltjen",
     external_url: "https://github.com/nasa/openmct",
+    image_url:
+      "https://user-images.githubusercontent.com/4215777/203617422-4d912bfc-766f-4074-8324-409d9bbe7c05.png",
     star_sign: null,
   },
   {
@@ -106,6 +125,8 @@ const SAMPLE_PROJECTS = [
     domains: "integration,commad line,messaging",
     user_id: "Jkovarik",
     external_url: "https://github.com/nasa/cumulus-message-adapter",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png",
     star_sign: null,
   },
   {
@@ -115,6 +136,8 @@ const SAMPLE_PROJECTS = [
     domains: "integration,collaboration,aws",
     user_id: "chris-durbin",
     external_url: "https://github.com/nasa/harmony",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png",
     star_sign: null,
   },
   {
@@ -124,6 +147,8 @@ const SAMPLE_PROJECTS = [
     domains: "cloud based,data management,earth science",
     user_id: "marchuffnagle",
     external_url: "https://github.com/nasa/cumulus",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png",
     star_sign: null,
   },
   {
@@ -134,6 +159,8 @@ const SAMPLE_PROJECTS = [
       "quantum simulation,extensible framework,high performance computing",
     user_id: "dagart",
     external_url: "https://github.com/nasa/hybridq",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png",
     star_sign: null,
   },
   {
@@ -143,6 +170,8 @@ const SAMPLE_PROJECTS = [
     domains: "simulation,autonomous,ocean worlds",
     user_id: "Samahu",
     external_url: "https://github.com/nasa/ow_simulator",
+    image_url:
+      "https://github.com/nasa/ow_simulator/raw/master/oceanwaters/doc/lander_europa.jpg",
     star_sign: null,
   },
   {
@@ -152,6 +181,8 @@ const SAMPLE_PROJECTS = [
     domains: "prognostics,predictive,prognostics",
     user_id: "teubert",
     external_url: "https://github.com/nasa/progpy",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png",
     star_sign: null,
   },
   {
@@ -161,6 +192,8 @@ const SAMPLE_PROJECTS = [
     domains: "artificial intelligence,autonomous,core flight software",
     user_id: "asgibson",
     external_url: "https://github.com/nasa/OnAIR",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png",
     star_sign: null,
   },
   {
@@ -170,6 +203,8 @@ const SAMPLE_PROJECTS = [
     domains: "data comparison,netcdf analysis,structural validation",
     user_id: "danielfromearth",
     external_url: "https://github.com/nasa/ncompare",
+    image_url:
+      "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png",
     star_sign: null,
   },
   {
@@ -179,6 +214,8 @@ const SAMPLE_PROJECTS = [
     domains: "particle flux modeling,van allen belt,astropy",
     user_id: "lpsinger",
     external_url: "https://github.com/nasa/radbelt",
+    image_url:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Van_Allen_Belts.ogv/1200px--Van_Allen_Belts.ogv.jpg",
     star_sign: null,
   },
 ];

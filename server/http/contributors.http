@@ -10,4 +10,4 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/contributor/project/6d8ad50d-26aa-4af1-82d6-27b8f7522de9 HTTP/1.1
+GET http://localhost:3000/contributor/recommend/df7dd820-3fd3-46aa-8e45-2bce18ca48c5 HTTP/1.1

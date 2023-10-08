@@ -73,8 +73,10 @@ const fakeProjectAndOwner = async (projectData) => {
     project_manager_id: contributor.user_id,
     external_url: projectData.external_url,
     incompatible_signs,
+    image_url: projectData.image_url,
     roles,
     contributors: [contributor.user_id],
+    applicants: [],
     embedding,
   };
 
