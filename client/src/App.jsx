@@ -1,13 +1,13 @@
-import React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ChakraProvider } from "@chakra-ui/react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { Home, Search } from "./pages";
-import Navbar from "./components/Navbar";
+import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ChakraProvider } from '@chakra-ui/react';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { Home, Search, Login, SignUp } from './pages';
+import Navbar from './components/Navbar';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: (
       <div>
         <Navbar />
@@ -18,12 +18,20 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/",
+        path: '/',
         element: <Home />,
       },
       {
-        path: "/search",
+        path: '/search',
         element: <Search />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <SignUp />,
       },
     ],
   },

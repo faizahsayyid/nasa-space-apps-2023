@@ -48,9 +48,6 @@ export const Search = () => {
                 setSearchTerm(event.target.value);
               }
             }}
-            // onChange={(event) => {
-            //   setSearchTerm(event.target.value);
-            // }}
             placeholder='Search for projects...'
             _focus={{ borderColor: 'purple.500', boxShadow: 'none' }}
             id='search'
@@ -68,72 +65,61 @@ export const Search = () => {
           mx='25%'
           height='100%'
         >
-          {data
-            // .filter((val) => {
-            //   if (searchTerm == '') {
-            //     return val;
-            //   } else if (
-            //     val.title.toLowerCase().includes(searchTerm.toLowerCase())
-            //   ) {
-            //     return val;
-            //   }
-            // })
-
-            .map((val) => {
-              return (
-                <div className='template' key={val.id}>
-                  <Box maxW='sm' height='100%' overflow='hidden'>
-                    <Card maxW='sm' height='100%'>
-                      <CardBody>
-                        {val.image_url ? (
-                          <Image
-                            src={val.image_url}
-                            alt='Project Picture'
-                            borderRadius='lg'
-                          />
-                        ) : (
-                          <Image
-                            src=' https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png' // Replace with your default image source
-                            alt='Default Image'
-                            borderRadius='lg'
-                          />
-                        )}
-                        <Stack mt='6' spacing='3'>
-                          <Heading size='md'>{val.name}</Heading>
-                          <Text>{val.description}</Text>
-                          <Text fontWeight='bold' fontSize='sm'>
-                            Open Roles Available:{' '}
-                            {val.roles.map((role, index) => (
-                              <span key={index}>
-                                {role.toLowerCase()}
-                                {index < val.roles.length - 1 ? ', ' : ''}
-                              </span>
-                            ))}
-                          </Text>
-                        </Stack>
-                      </CardBody>
-                      <Divider />
-                      <CardFooter>
-                        <ButtonGroup spacing='2'>
-                          <a
-                            href={val.external_url}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                          >
-                            <Button variant='solid' colorScheme='blue'>
-                              Apply now
-                            </Button>
-                          </a>
-                          <Button variant='ghost' colorScheme='blue'>
-                            Save for later
+          {data.map((val) => {
+            return (
+              <div className='template' key={val.id}>
+                <Box maxW='sm' height='100%' overflow='hidden'>
+                  <Card maxW='sm' height='100%'>
+                    <CardBody>
+                      {val.image_url ? (
+                        <Image
+                          src={val.image_url}
+                          alt='Project Picture'
+                          borderRadius='lg'
+                        />
+                      ) : (
+                        <Image
+                          src=' https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png' // Replace with your default image source
+                          alt='Default Image'
+                          borderRadius='lg'
+                        />
+                      )}
+                      <Stack mt='6' spacing='3'>
+                        <Heading size='md'>{val.name}</Heading>
+                        <Text>{val.description}</Text>
+                        <Text fontWeight='bold' fontSize='sm'>
+                          Open Roles Available:{' '}
+                          {val.roles.map((role, index) => (
+                            <span key={index}>
+                              {role.toLowerCase()}
+                              {index < val.roles.length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </Text>
+                      </Stack>
+                    </CardBody>
+                    <Divider />
+                    <CardFooter>
+                      <ButtonGroup spacing='2'>
+                        <a
+                          href={val.external_url}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          <Button variant='solid' colorScheme='blue'>
+                            Apply now
                           </Button>
-                        </ButtonGroup>
-                      </CardFooter>
-                    </Card>
-                  </Box>
-                </div>
-              );
-            })}
+                        </a>
+                        <Button variant='ghost' colorScheme='blue'>
+                          Save for later
+                        </Button>
+                      </ButtonGroup>
+                    </CardFooter>
+                  </Card>
+                </Box>
+              </div>
+            );
+          })}
         </Grid>
       </Center>
     </div>
