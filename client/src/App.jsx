@@ -1,12 +1,16 @@
-import React from "react";
-import { ChakraProvider } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home } from "./pages";
+import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Home, Search } from './pages';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Home />,
+  },
+  {
+    path: '/search',
+    element: <Search />,
   },
 ]);
 
