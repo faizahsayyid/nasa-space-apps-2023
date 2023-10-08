@@ -115,11 +115,18 @@ export const SignUp = () => {
                 Sign up
               </Button>
             </Stack>
-            <Stack pt={5}>
+            <Stack pt={3}>
               <Text align={'center'}>
                 Already a user?{' '}
                 <Text color={'blue.400'} display='inline'>
                   <Link to='/login'>Login</Link>
+                </Text>
+              </Text>
+            </Stack>
+            <Stack pt={0}>
+              <Text align={'center'}>
+                <Text color={'blue.400'} textDecoration='underline'>
+                  <Link to='/login'>Proceed without an account</Link>
                 </Text>
               </Text>
             </Stack>
