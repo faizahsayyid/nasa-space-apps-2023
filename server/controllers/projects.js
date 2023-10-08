@@ -59,20 +59,25 @@ const queryProjects = async (req, res) => {
  * @param domains - a string list of domains the project belongs to
  * @param user_id - the user creating the project
  * @param external_url - an external url to the project
- * @param star_sign - the star sign of the user creating the project
+ * @param roles - a string list of roles the project is looking for
  * @returns the created project id
  */
 const createProject = async (req, res) => {
-  const { name, description, domains, user_id, external_url, star_sign } =
-    req.body;
+  const { name, description, domains, user_id, external_url, roles } = req.body;
 
-  const incompatible_signs = getIncompatibleSigns(star_sign);
+  const contributorResult = await index.fetch([user_id]);
+  const contributorMetaData = contributorResult.records[user_id].metadata;
+
+  const incompatible_signs = getIncompatibleSigns(
+    contributorMetaData.star_sign
+  );
 
   try {
     const embedding = await OpenAIService.createEmbedding(`
     Name: ${name}
     Description: ${description}
     Domains: ${domains.join(", ")}
+    Recruiting For Roles: ${roles.join(", ")}
     Incompatible Star Signs: ${incompatible_signs.join(", ")}
     `);
 
@@ -89,12 +94,23 @@ const createProject = async (req, res) => {
           project_manager_id: user_id,
           external_url,
           incompatible_signs,
+          roles,
           contributors: [user_id],
         },
         values: embedding,
       },
     ]);
-    res.status(200).send({ project_id });
+
+    const projectResult = await index.fetch([project_id]);
+    const projectMetaData = projectResult.records[project_id].metadata;
+
+    res
+      .status(200)
+      .send({
+        project_id,
+        ...projectMetaData,
+        project_manager: { user_id, ...contributorMetaData },
+      });
   } catch (e) {
     console.log(e);
     res.status(500).send({ message: "Unable to create project" });
