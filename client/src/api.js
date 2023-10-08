@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const api_url = 'https://api-open-source-astrology.onrender.com/';
+const api_url = "https://api-open-source-astrology.onrender.com/";
 
 export const get_projects = async (search, user_id) => {
   const result = await axios.get(

@@ -37,7 +37,7 @@ const queryProjects = async (req, res) => {
 
     const query = await index.query({
       vector: embedding,
-      topK: limit ?? 10,
+      topK: parseInt(limit) ?? 10,
       includeMetadata: true,
       includeValues: false,
       ...filters,
