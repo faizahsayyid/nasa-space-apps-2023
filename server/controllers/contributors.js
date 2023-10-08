@@ -69,7 +69,11 @@ const createContributor = async (req, res) => {
         values: embedding,
       },
     ]);
-    res.status(200).send({ user_id: userId });
+
+    const contributorResult = await index.fetch([userId]);
+    const contributorMetaData = contributorResult.records[userId].metadata;
+
+    res.status(200).send({ user_id: userId, ...contributorMetaData });
   } catch (e) {
     console.log(e);
     res.status(500).send({ message: "Unable to create contributor" });
