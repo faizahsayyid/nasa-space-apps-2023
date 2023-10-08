@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Home, Search } from './pages';
+import { Home, Search, CreateProject } from './pages';
 
 const router = createBrowserRouter([
   {
@@ -12,6 +12,10 @@ const router = createBrowserRouter([
     path: '/search',
     element: <Search />,
   },
+  {
+    path: '/createproject',
+    element: <CreateProject />,
+  }
 ]);
 
 function App() {
