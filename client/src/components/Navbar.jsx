@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 const Links = [
   { label: 'Search Projects', to: '/search' },
   { label: 'Saved Projects', to: '/saved' },
-  { label: 'Create Posting', to: '/create' },
+  { label: 'Create Posting', to: '/createproject' },
 ];
 
 const NavLink = (props) => {
