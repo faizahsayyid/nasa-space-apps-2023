@@ -2,36 +2,40 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Search, SavedProjects, Login, SignUp } from "./pages";
+import { Home, Search, SavedProjects, Login, SignUp, CreateProject } from "./pages";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/search",
-        element: <Search />,
-      },
-      {
-        path: "/saved",
-        element: <SavedProjects />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
-    ],
-  },
+{
+path: "/",
+element: <Layout />,
+children: [
+{
+  path: "/",
+  element: <Home />,
+},
+{
+  path: "/search",
+  element: <Search />,
+},
+{
+  path: "/saved",
+  element: <SavedProjects />,
+},
+{
+  path: "/login",
+  element: <Login />,
+},
+{
+  path: "/signup",
+  element: <SignUp />,
+},
+{
+  path: '/createproject',
+  element: <CreateProject />,
+}
+],
+},
 ]);
 
 function App() {
