@@ -331,8 +331,11 @@ export const CreateProject = () => {
   const [progress, setProgress] = useState(33.33)
 
   return (
+    <div style={{ backgroundColor: '#000657', minHeight: '100vh' }}>
+
     <>
       <Box
+        bg="white"
         borderWidth="1px"
         rounded="lg"
         shadow="1px 1px 3px rgba(0,0,0,0.3)"
@@ -351,7 +354,7 @@ export const CreateProject = () => {
                   setProgress(progress - 33.33)
                 }}
                 isDisabled={step === 1}
-                colorScheme="teal"
+                colorScheme="blue"
                 variant="solid"
                 w="7rem"
                 mr="5%">
@@ -368,7 +371,7 @@ export const CreateProject = () => {
                     setProgress(progress + 33.33)
                   }
                 }}
-                colorScheme="teal"
+                colorScheme="blue"
                 variant="outline">
                 Next
               </Button>
@@ -394,5 +397,6 @@ export const CreateProject = () => {
         </ButtonGroup>
       </Box>
     </>
+    </div>
   )
 }
