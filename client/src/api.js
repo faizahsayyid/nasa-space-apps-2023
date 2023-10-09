@@ -1,8 +1,8 @@
-import axios from "axios";
-import { SAMPLE_USER_ID } from "./constants";
+import axios from 'axios';
+import { SAMPLE_USER_ID } from './constants';
 
-// const api_url = "https://api-open-source-astrology.onrender.com/";
-const api_url = "http://localhost:3000/";
+const api_url = 'https://api-open-source-astrology.onrender.com/';
+// const api_url = "http://localhost:3000/";
 
 export const get_projects = async (search, user_id) => {
   const result = await axios.get(
@@ -28,7 +28,7 @@ export const unSaveProject = async ({ projectId, userId }) => {
 };
 
 export const getCurrentUser = async () => {
-  const userId = localStorage.getItem("userId") || SAMPLE_USER_ID;
+  const userId = localStorage.getItem('userId') || SAMPLE_USER_ID;
 
   const result = await axios.get(`${api_url}contributor/${userId}`);
 
@@ -36,7 +36,7 @@ export const getCurrentUser = async () => {
 };
 
 export const getSavedProjects = async () => {
-  const userId = localStorage.getItem("userId") || SAMPLE_USER_ID;
+  const userId = localStorage.getItem('userId') || SAMPLE_USER_ID;
   const result = await axios.get(`${api_url}contributor/${userId}/favorite`);
   return result.data;
 };

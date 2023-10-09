@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import {
   Card,
   CardBody,
@@ -11,34 +10,28 @@ import {
   ButtonGroup,
   Button,
   Spinner,
-} from "@chakra-ui/react";
-import { useQueryClient, useMutation } from "react-query";
-import { saveProject, unSaveProject } from "../api";
-
-import React, { useContext } from "react";
-import { GlobalContext } from "../contexts/GlobalContext";
+} from '@chakra-ui/react';
+import { useQueryClient, useMutation } from 'react-query';
+import { saveProject, unSaveProject } from '../api';
+import React, { useContext } from 'react';
+import { GlobalContext } from '../contexts/GlobalContext';
 
 const ProjectCard = ({ project }) => {
   const { currentUser, isCurrentUserLoading } = useContext(GlobalContext);
-
   const isSaved = currentUser?.favorite_projects?.includes(project?.project_id);
-
   const queryClient = useQueryClient();
+
   const saveProjectMutation = useMutation({
     mutationFn: saveProject,
     onSettled: async () => {
-      return await queryClient.invalidateQueries({
-        queryKey: ["get_current_user"],
-      });
+      await queryClient.invalidateQueries(['get_current_user']);
     },
   });
 
   const unSaveProjectMutation = useMutation({
     mutationFn: unSaveProject,
     onSettled: async () => {
-      return await queryClient.invalidateQueries({
-        queryKey: ["get_current_user"],
-      });
+      await queryClient.invalidateQueries(['get_current_user']);
     },
   });
 
@@ -46,63 +39,57 @@ const ProjectCard = ({ project }) => {
     isCurrentUserLoading ||
     saveProjectMutation.isLoading ||
     unSaveProjectMutation.isLoading;
+
   const handleSave = isSaved
     ? unSaveProjectMutation.mutate
     : saveProjectMutation.mutate;
-  const saveButtonText = isSaved ? "Unsave" : "Save for later";
+
+  const saveButtonText = isSaved ? 'Unsave' : 'Save for later';
 
   return (
-    <Card maxW="sm" height="100%">
+    <Card maxW='sm' height='100%' minWidth='250px'>
       <CardBody>
         <Image
           src={
-            project.image_url
-              ? project.image_url
-              : "https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png"
+            project.image_url ||
+            'https://www.nasa.gov/wp-content/uploads/2021/05/nasa-logo-web-rgb.png'
           }
-          alt="Project Picture"
-          borderRadius="lg"
+          alt='Project Picture'
+          borderRadius='lg'
         />
-        <Stack mt="6" spacing="3">
-          <Heading size="md">{project.name}</Heading>
-          <Text>{project.description}</Text>
-          <Text fontWeight="bold" fontSize="sm">
-            Open Roles Available:{" "}
-            {project.roles.map((role, index) => (
-              <span key={index}>
-                {role.toLowerCase()}
-                {index < project.roles.length - 1 ? ", " : ""}
-              </span>
-            ))}
-          </Text>
+        <Stack mt='4' spacing='2'>
+          <Heading size='md'>{project.name}</Heading>
+          <Text fontSize='sm'>{project.description}</Text>
         </Stack>
+        <Divider mt='4' />
+        <Text fontSize='sm' fontWeight='bold'>
+          Open Roles Available: {project.roles.join(', ')}
+        </Text>
       </CardBody>
-      <Divider />
       <CardFooter>
-        <ButtonGroup spacing="2" justifyContent="space-between">
+        <ButtonGroup spacing='2' justifyContent='space-between'>
           <a
             href={project.external_url}
-            target="_blank"
-            rel="noopener noreferrer"
+            target='_blank'
+            rel='noopener noreferrer'
           >
-            <Button variant="solid" colorScheme="blue">
+            <Button variant='solid' colorScheme='blue'>
               Apply now
             </Button>
           </a>
           {isLoading ? (
             <Button
-              variant="ghost"
-              colorScheme="blue"
+              variant='ghost'
+              colorScheme='blue'
               disabled={true}
-              textAlign="center"
-              width="8em"
+              width='8em'
             >
-              <Spinner size="xs" />
+              <Spinner size='xs' />
             </Button>
           ) : (
             <Button
-              variant="ghost"
-              colorScheme="blue"
+              variant='ghost'
+              colorScheme='blue'
               onClick={() => {
                 handleSave({
                   projectId: project.project_id,
