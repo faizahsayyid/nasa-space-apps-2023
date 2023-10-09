@@ -1,4 +1,4 @@
-# Open Science Astrology
+# Open Source Astrology
 
 ## HIGH-LEVEL SUMMARY
 In this project, we propose an artificial intelligence recommendation pipeline to recommend matches with potential collaborators, open source projects looking for contributors and public data to start anew. We divide this challenging problem into three subproblems, including (1) collecting, cleaning and standardizing information from users, projects and data banks, (2) find the most common patterns for matching between data endpoints, and (3) break the patterns and use unlikely astrology matches to pair nodes together. By partitioning the process into subproblems, each of them can be more representative, and can be further used in future customizable matching schemes. The results demonstrate that sometimes staying in your comfort zone or only exploring what you think you want is limiting, and you future might be in (or written by) the stars!
