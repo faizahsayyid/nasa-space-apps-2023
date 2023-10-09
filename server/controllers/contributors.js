@@ -91,6 +91,7 @@ const favoriteProject = async (req, res) => {
   try {
     const result = await index.fetch([user_id]);
     const contributor = result.records[user_id].metadata;
+    const values = result.records[user_id].values;
 
     if (contributor.favorite_projects.includes(project_id)) {
       res.status(200).send({ message: "Project already favorited" });
@@ -102,6 +103,7 @@ const favoriteProject = async (req, res) => {
             ...contributor,
             favorite_projects: [...contributor.favorite_projects, project_id],
           },
+          values,
         },
       ]);
 
@@ -124,6 +126,7 @@ const unfavoriteProject = async (req, res) => {
   try {
     const result = await index.fetch([user_id]);
     const contributor = result.records[user_id].metadata;
+    const values = result.records[user_id].values;
 
     if (!contributor.favorite_projects.includes(project_id)) {
       res.status(200).send({ message: "Project not favorited" });
@@ -137,6 +140,7 @@ const unfavoriteProject = async (req, res) => {
               (id) => id !== project_id
             ),
           },
+          values,
         },
       ]);
 
@@ -203,6 +207,7 @@ const updateContributor = async (req, res) => {
   try {
     const result = await index.fetch([user_id]);
     const contributor = result.records[user_id].metadata;
+    const values = result.records[user_id].values;
 
     const updatedContributor = {
       ...contributor,
@@ -216,6 +221,7 @@ const updateContributor = async (req, res) => {
       {
         id: user_id,
         metadata: updatedContributor,
+        values,
       },
     ]);
 
@@ -223,6 +229,38 @@ const updateContributor = async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).send({ message: "Unable to update contributor" });
+  }
+};
+
+/**
+ * Get favorite projects for a user
+ * @param user_id - the id of the user to get favorite projects for
+ */
+const getFavoriteProjects = async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    const result = await index.fetch([user_id]);
+    const contributor = result.records[user_id].metadata;
+
+    const favoriteProjects = contributor.favorite_projects;
+
+    if (favoriteProjects.length === 0) {
+      res.status(200).send([]);
+      return;
+    }
+
+    const projectData = await index.fetch(favoriteProjects);
+    const projects = Object.entries(projectData.records).map(
+      ([id, { metadata }]) => {
+        return { project_id: id, ...metadata };
+      }
+    );
+
+    res.status(200).send(projects);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to get favorite projects" });
   }
 };
 
@@ -234,4 +272,5 @@ module.exports = {
   getContributor,
   updateContributor,
   getContributorByEmail,
+  getFavoriteProjects,
 };

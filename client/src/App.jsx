@@ -1,21 +1,14 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { Home, Search } from "./pages";
-import Navbar from "./components/Navbar";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Home, Search, SavedProjects } from "./pages";
+import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <div>
-        <Navbar />
-        <main>
-          <Outlet />
-        </main>
-      </div>
-    ),
+    element: <Layout />,
     children: [
       {
         path: "/",
@@ -24,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
+      },
+      {
+        path: "/saved",
+        element: <SavedProjects />,
       },
     ],
   },
