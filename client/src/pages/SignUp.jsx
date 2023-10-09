@@ -102,19 +102,22 @@ export const SignUp = () => {
                 </Select>
               </FormControl>
             </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText='Submitting'
-                size='lg'
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}
-              >
-                Sign up
-              </Button>
-            </Stack>
+            <Link to='/search'>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  loadingText='Submitting'
+                  size='lg'
+                  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Stack>
+            </Link>
+
             <Stack pt={3}>
               <Text align={'center'}>
                 Already a user?{' '}
