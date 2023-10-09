@@ -38,9 +38,6 @@ export const Search = () => {
                 setSearchTerm(event.target.value);
               }
             }}
-            // onChange={(event) => {
-            //   setSearchTerm(event.target.value);
-            // }}
             placeholder="Search for projects..."
             _focus={{ borderColor: "purple.500", boxShadow: "none" }}
             id="search"

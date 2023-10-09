@@ -80,9 +80,15 @@ const ProjectCard = ({ project }) => {
       <Divider />
       <CardFooter>
         <ButtonGroup spacing="2" justifyContent="space-between">
-          <Button variant="solid" colorScheme="blue">
-            Apply now
-          </Button>
+          <a
+            href={project.external_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="solid" colorScheme="blue">
+              Apply now
+            </Button>
+          </a>
           {isLoading ? (
             <Button
               variant="ghost"
