@@ -14,6 +14,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+import { Link } from 'react-router-dom';
+
 export const Login = () => {
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'} bg={'#000657'}>
@@ -60,9 +62,19 @@ export const Login = () => {
               >
                 Sign in
               </Button>
+              <Text align={'center'}>
+                <Text color={'blue.400'} textDecoration='underline'>
+                  <Link to='/search'>Proceed without an account</Link>
+                </Text>
+              </Text>
             </Stack>
           </Stack>
         </Box>
+        <Text align={'center'}>
+          <Text color={'white'} textDecoration='underline'>
+            <Link to='/signup'>New? Click here to create an account</Link>
+          </Text>
+        </Text>
       </Stack>
     </Flex>
   );
