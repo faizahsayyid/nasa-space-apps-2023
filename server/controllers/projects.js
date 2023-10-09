@@ -37,13 +37,15 @@ const queryProjects = async (req, res) => {
 
     const query = await index.query({
       vector: embedding,
-      topK: limit ?? 10,
+      topK: limit ? parseInt(limit) : 10,
       includeMetadata: true,
       includeValues: false,
       ...filters,
     });
 
-    const projects = query.matches.map(({ metadata }) => metadata);
+    const projects = query.matches.map(({ id, metadata }) => {
+      return { project_id: id, ...metadata };
+    });
 
     res.status(200).send(projects);
   } catch (e) {
@@ -96,6 +98,7 @@ const createProject = async (req, res) => {
           incompatible_signs,
           roles,
           contributors: [user_id],
+          applicants: [],
         },
         values: embedding,
       },
@@ -104,20 +107,130 @@ const createProject = async (req, res) => {
     const projectResult = await index.fetch([project_id]);
     const projectMetaData = projectResult.records[project_id].metadata;
 
-    res
-      .status(200)
-      .send({
-        project_id,
-        ...projectMetaData,
-        project_manager: { user_id, ...contributorMetaData },
-      });
+    res.status(200).send({
+      project_id,
+      ...projectMetaData,
+      project_manager: { user_id, ...contributorMetaData },
+    });
   } catch (e) {
     console.log(e);
     res.status(500).send({ message: "Unable to create project" });
   }
 };
 
+/**
+ * Update a project
+ * @param project_id - the id of the project to update
+ */
+const updateProject = async (req, res) => {
+  const { project_id } = req.params;
+  const { name, description, domains, external_url, roles } = req.body;
+
+  try {
+    const projectResult = await index.fetch([project_id]);
+    const projectMetaData = projectResult.records[project_id].metadata;
+
+    const updatedProject = {
+      ...projectMetaData,
+      name: name ?? projectMetaData.name,
+      description: description ?? projectMetaData.description,
+      domains: domains ?? projectMetaData.domains,
+      external_url: external_url ?? projectMetaData.external_url,
+      roles: roles ?? projectMetaData.roles,
+    };
+
+    await index.update([
+      {
+        id: project_id,
+        metadata: updatedProject,
+        values: projectResult.records[project_id].values,
+      },
+    ]);
+
+    res.status(200).send({ project_id, updatedProject });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to update project" });
+  }
+};
+
+/**
+ * Get Project
+ * @param project_id - the id of the project to get
+ */
+const getProject = async (req, res) => {
+  const { project_id } = req.params;
+
+  try {
+    const projectResult = await index.fetch([project_id]);
+    const projectMetaData = projectResult.records[project_id].metadata;
+
+    res.status(200).send({ project, ...projectMetaData });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to get project" });
+  }
+};
+
+/**
+ * Apply to a project
+ * @param project_id - the id of the project to apply to
+ * @param user_id - the id of the user applying
+ */
+const applyToProject = async (req, res) => {
+  const { project_id } = req.params;
+  const { user_id } = req.body;
+
+  try {
+    const projectResult = await index.fetch([project_id]);
+    const projectMetaData = projectResult.records[project_id].metadata;
+
+    const updatedProject = {
+      ...projectMetaData,
+      applicants: [...projectMetaData.applicants, user_id],
+    };
+
+    await index.update([
+      {
+        id: project_id,
+        metadata: updatedProject,
+        values: projectResult.records[project_id].values,
+      },
+    ]);
+
+    res.status(200).send({ project_id, updatedProject });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to update project" });
+  }
+};
+
+/**
+ * Get project by manager id
+ * @param user_id - the id of the user to get projects for
+ */
+const getProjectsByManager = async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    const projectResult = await index.query({
+      filter: { project_manager_id: user_id },
+    });
+
+    const projects = projectResult.matches.map(({ metadata }) => metadata);
+
+    res.status(200).send([projects]);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to get project" });
+  }
+};
+
 module.exports = {
   queryProjects,
   createProject,
+  updateProject,
+  getProject,
+  applyToProject,
+  getProjectsByManager,
 };

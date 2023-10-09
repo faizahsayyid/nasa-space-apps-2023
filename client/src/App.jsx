@@ -1,28 +1,52 @@
-import React from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Home, Search, CreateProject } from './pages';
+import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ChakraProvider } from "@chakra-ui/react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Home, Search, SavedProjects, Login, SignUp, CreateProject } from "./pages";
+import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/search',
-    element: <Search />,
-  },
-  {
-    path: '/createproject',
-    element: <CreateProject />,
-  }
+{
+path: "/",
+element: <Layout />,
+children: [
+{
+  path: "/",
+  element: <Home />,
+},
+{
+  path: "/search",
+  element: <Search />,
+},
+{
+  path: "/saved",
+  element: <SavedProjects />,
+},
+{
+  path: "/login",
+  element: <Login />,
+},
+{
+  path: "/signup",
+  element: <SignUp />,
+},
+{
+  path: '/createproject',
+  element: <CreateProject />,
+}
+],
+},
 ]);
 
 function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <ChakraProvider>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider>
+        <RouterProvider router={router} />
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 

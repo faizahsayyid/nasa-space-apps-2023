@@ -18,15 +18,15 @@ const recommendContributors = async (req, res) => {
     // get projects by query
     const contributorData = await index.query({
       vector: embedding,
-      topK: limit ?? 10,
+      topK: limit ? parseInt(limit) : 10,
       includeMetadata: true,
       includeValues: false,
       filter: { type: "contributor" },
     });
 
-    const contributors = contributorData.matches.map(
-      ({ metadata }) => metadata
-    );
+    const contributors = contributorData.matches.map(({ id, metadata }) => {
+      return { user_id: id, ...metadata };
+    });
 
     res.status(200).send(contributors);
   } catch (e) {
@@ -80,7 +80,197 @@ const createContributor = async (req, res) => {
   }
 };
 
+/**
+ * Favorite a project
+ * @param user_id - the user favoriting the project
+ * @param project_id - the project to favorite
+ */
+const favoriteProject = async (req, res) => {
+  const { user_id, project_id } = req.body;
+
+  try {
+    const result = await index.fetch([user_id]);
+    const contributor = result.records[user_id].metadata;
+    const values = result.records[user_id].values;
+
+    if (contributor.favorite_projects.includes(project_id)) {
+      res.status(200).send({ message: "Project already favorited" });
+    } else {
+      await index.upsert([
+        {
+          id: user_id,
+          metadata: {
+            ...contributor,
+            favorite_projects: [...contributor.favorite_projects, project_id],
+          },
+          values,
+        },
+      ]);
+
+      res.status(200).send({ message: "Project favorited" });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to favorite project" });
+  }
+};
+
+/**
+ * Unfavorite a project
+ * @param user_id - the user unfavoriting the project
+ * @param project_id - the project to unfavorite
+ */
+const unfavoriteProject = async (req, res) => {
+  const { user_id, project_id } = req.body;
+
+  try {
+    const result = await index.fetch([user_id]);
+    const contributor = result.records[user_id].metadata;
+    const values = result.records[user_id].values;
+
+    if (!contributor.favorite_projects.includes(project_id)) {
+      res.status(200).send({ message: "Project not favorited" });
+    } else {
+      await index.upsert([
+        {
+          id: user_id,
+          metadata: {
+            ...contributor,
+            favorite_projects: contributor.favorite_projects.filter(
+              (id) => id !== project_id
+            ),
+          },
+          values,
+        },
+      ]);
+
+      res.status(200).send({ message: "Project unfavorited" });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to unfavorite project" });
+  }
+};
+
+/**
+ * Get a contributor
+ * @param user_id - the id of the contributor to get
+ */
+const getContributor = async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    const result = await index.fetch([user_id]);
+    const contributor = result.records[user_id].metadata;
+
+    res.status(200).send({ user_id, ...contributor });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to get contributor" });
+  }
+};
+
+/**
+ * Get a contributor by email
+ * @param email - the email of the contributor to get
+ */
+const getContributorByEmail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const result = await index.query({
+      query: email,
+      filter: { type: "contributor" },
+    });
+
+    const contributor = result.matches[0].metadata;
+
+    res.status(200).send({ ...contributor });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to get contributor" });
+  }
+};
+
+/**
+ * Update a contributor
+ * @param user_id - the id of the contributor to update
+ * @param skills - skills of the contributor
+ * @param interests - interests of the contributor
+ * @param email - email of the contributor
+ * @param star_sign - star sign of the contributor
+ */
+const updateContributor = async (req, res) => {
+  const { user_id } = req.params;
+  const { skills, interests, email, star_sign } = req.body;
+
+  try {
+    const result = await index.fetch([user_id]);
+    const contributor = result.records[user_id].metadata;
+    const values = result.records[user_id].values;
+
+    const updatedContributor = {
+      ...contributor,
+      skills,
+      interests,
+      email,
+      star_sign,
+    };
+
+    await index.upsert([
+      {
+        id: user_id,
+        metadata: updatedContributor,
+        values,
+      },
+    ]);
+
+    res.status(200).send({ user_id, ...updatedContributor });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to update contributor" });
+  }
+};
+
+/**
+ * Get favorite projects for a user
+ * @param user_id - the id of the user to get favorite projects for
+ */
+const getFavoriteProjects = async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    const result = await index.fetch([user_id]);
+    const contributor = result.records[user_id].metadata;
+
+    const favoriteProjects = contributor.favorite_projects;
+
+    if (favoriteProjects.length === 0) {
+      res.status(200).send([]);
+      return;
+    }
+
+    const projectData = await index.fetch(favoriteProjects);
+    const projects = Object.entries(projectData.records).map(
+      ([id, { metadata }]) => {
+        return { project_id: id, ...metadata };
+      }
+    );
+
+    res.status(200).send(projects);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ message: "Unable to get favorite projects" });
+  }
+};
+
 module.exports = {
   recommendContributors,
   createContributor,
+  favoriteProject,
+  unfavoriteProject,
+  getContributor,
+  updateContributor,
+  getContributorByEmail,
+  getFavoriteProjects,
 };
