@@ -143,6 +143,7 @@ const updateProject = async (req, res) => {
       {
         id: project_id,
         metadata: updatedProject,
+        values: projectResult.records[project_id].values,
       },
     ]);
 
@@ -193,6 +194,7 @@ const applyToProject = async (req, res) => {
       {
         id: project_id,
         metadata: updatedProject,
+        values: projectResult.records[project_id].values,
       },
     ]);
 

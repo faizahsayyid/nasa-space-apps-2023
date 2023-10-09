@@ -12,5 +12,6 @@ router.put("/:user_id", contributorController.updateContributor);
 router.post("/favorite", contributorController.favoriteProject);
 router.post("/unfavorite", contributorController.unfavoriteProject);
 router.post("/login", contributorController.getContributorByEmail);
+router.get("/:user_id/favorite", contributorController.getFavoriteProjects);
 
 module.exports = router;
