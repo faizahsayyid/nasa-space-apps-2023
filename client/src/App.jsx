@@ -1,36 +1,33 @@
-import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ChakraProvider } from '@chakra-ui/react';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { Home, Search, Login, SignUp } from './pages';
-import Navbar from './components/Navbar';
+import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ChakraProvider } from "@chakra-ui/react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Home, Search, SavedProjects, Login, SignUp } from "./pages";
+import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <div>
-        <Navbar />
-        <main>
-          <Outlet />
-        </main>
-      </div>
-    ),
+    path: "/",
+    element: <Layout />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Home />,
       },
       {
-        path: '/search',
+        path: "/search",
         element: <Search />,
       },
       {
-        path: '/login',
+        path: "/saved",
+        element: <SavedProjects />,
+      },
+      {
+        path: "/login",
         element: <Login />,
       },
       {
-        path: '/signup',
+        path: "/signup",
         element: <SignUp />,
       },
     ],
